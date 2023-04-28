@@ -1,0 +1,4 @@
+python Server.py 1030
+python ClientLauncher.py 127.0.0.1 1030 5000 movie.Mjpeg
+
+python ClientLauncher3Button.py 127.0.0.1 1030 5000 movie.Mjpeg
