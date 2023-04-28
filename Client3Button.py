@@ -45,7 +45,7 @@ class Client:
         
     def createWidgets(self):
         """Build GUI."""
-        # Create Play button        
+        # Create Play button    
         self.play_btn = PhotoImage(file='./play_btn.png')
         self.play_btn_label = Label(image=self.play_btn)
 
@@ -53,8 +53,9 @@ class Client:
         self.start["text"] = "Play"
         self.start["command"] = self.playMovie
         self.start.grid(row=2, column=0, padx=2, pady=2)
+        self.start["state"] = "normal"
         
-        # Create Pause button            
+        # Create Pause button     
         self.pause_btn = PhotoImage(file='./pause_btn.png')
         self.pause_btn_label = Label(image=self.pause_btn)
 
@@ -62,15 +63,27 @@ class Client:
         self.pause["text"] = "Pause"
         self.pause["command"] = self.pauseMovie
         self.pause.grid(row=2, column=1, padx=2, pady=2) 
+        self.pause["state"] = "disabled"
         
         # Create Stop button
         self.stop_btn = PhotoImage(file='./stop_btn.png')
         self.stop_btn_label = Label(image=self.stop_btn)
 
-        self.stop = Button(self.master,  image= self.stop_btn, borderwidth=3)
+        self.stop = Button(self.master, image= self.stop_btn, borderwidth=3)
         self.stop["text"] = "Stop"
         self.stop["command"] =  self.exitClient
         self.stop.grid(row=2, column=2, padx=2, pady=2)
+        self.stop["state"] = "disabled"
+
+        # Create Describe button
+        self.describe_btn = PhotoImage(file='./describe_btn.png')
+        self.describe_btn_label = Label(image=self.describe_btn)
+
+        self.describe = Button(self.master, image= self.describe_btn, borderwidth=3)
+        self.describe["text"] = "Describe"
+        self.describe["command"] =  self.describeSession
+        self.describe.grid(row=2, column=3, padx=2, pady=2)
+        self.describe["state"] = "disabled"
         
         # Create a label to display the movie
         self.label = Label(self.master, height=18, bg="black")
@@ -316,7 +329,7 @@ class Client:
                         self.start["state"] = "disabled"
                         self.pause["state"] = "normal"
                         self.stop["state"] = "normal"
-                        self.describe["state"] = "normal"
+                        # self.describe["state"] = "normal"
 
                     elif self.requestSent == self.PAUSE:
                         # Update RTSP state.

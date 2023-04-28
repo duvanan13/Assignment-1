@@ -15,6 +15,6 @@ if __name__ == "__main__":
 	
 	# Create a new client
 	app = Client(root, serverAddr, serverPort, rtpPort, fileName)
-	app.master.title("TF3-RTPClient")
+	app.master.title("VideoStreaming")
 	root.mainloop()
 	

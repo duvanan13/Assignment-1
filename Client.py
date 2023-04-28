@@ -53,13 +53,8 @@ class Client:
         self.setup["text"] = "Setup"
         self.setup["command"] = self.setupMovie
         self.setup.grid(row=2, column=0, padx=2, pady=2)
+        self.setup["state"] = "normal"
 
-        # self.setup = Button(self.master, width=15, padx=3, pady=3)
-        # self.setup["text"] = "Setup"
-        # self.setup["command"] = self.setupMovie
-        # self.setup.grid(row=2, column=0, padx=2, pady=2)
-        # self.setup["state"] = "normal"
-       
         # Create Play button    
         self.play_btn = PhotoImage(file='./play_btn.png')
         self.play_btn_label = Label(image=self.play_btn)
@@ -68,7 +63,7 @@ class Client:
         self.start["text"] = "Play"
         self.start["command"] = self.playMovie
         self.start.grid(row=2, column=1, padx=2, pady=2)
-        #self.start["state"] = "disabled"
+        self.start["state"] = "disabled"
         
         # Create Pause button     
         self.pause_btn = PhotoImage(file='./pause_btn.png')
@@ -78,7 +73,7 @@ class Client:
         self.pause["text"] = "Pause"
         self.pause["command"] = self.pauseMovie
         self.pause.grid(row=2, column=2, padx=2, pady=2) 
-        #self.pause["state"] = "disabled"
+        self.pause["state"] = "disabled"
         
         # Create Teardown button
         self.teardown_btn = PhotoImage(file='./teardown_btn.png')
@@ -88,7 +83,7 @@ class Client:
         self.teardown["text"] = "Teardown"
         self.teardown["command"] =  self.exitClient
         self.teardown.grid(row=2, column=3, padx=2, pady=2)
-        #self.teardown["state"] = "disabled"
+        self.teardown["state"] = "disabled"
 
         # Create Describe button
         self.describe_btn = PhotoImage(file='./describe_btn.png')
@@ -98,7 +93,7 @@ class Client:
         self.describe["text"] = "Describe"
         self.describe["command"] =  self.describeSession
         self.describe.grid(row=2, column=4, padx=2, pady=2)
-        #self.describe["state"] = "disabled"
+        self.describe["state"] = "disabled"
         
         # Create a label to display the movie
         self.label = Label(self.master, height=18, bg="black")
@@ -329,7 +324,7 @@ class Client:
                         self.start["state"] = "normal"
                         self.pause["state"] = "disabled"
                         self.teardown["state"] = "normal"
-                        self.describe["state"] = "normal"
+                        # self.describe["state"] = "normal"
 
                     elif self.requestSent == self.PLAY:
                         # Update RTSP state.
