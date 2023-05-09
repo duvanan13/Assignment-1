@@ -8,7 +8,6 @@ from RtpPacket import RtpPacket
 
 CACHE_FILE_NAME = "cache-"
 CACHE_FILE_EXT = ".jpg"
-SESSION_FILE = "session.txt"
 
 class Client:
     INIT = 0
@@ -20,7 +19,6 @@ class Client:
     PLAY = 1
     PAUSE = 2
     TEARDOWN = 3
-    DESCRIBE = 4
     
     # Initiation..
     def __init__(self, master, serveraddr, serverport, rtpport, fileName):
@@ -74,24 +72,14 @@ class Client:
         self.stop["command"] =  self.exitClient
         self.stop.grid(row=2, column=2, padx=2, pady=2)
         self.stop["state"] = "disabled"
-
-        # Create Describe button
-        self.describe_btn = PhotoImage(file='./describe_btn.png')
-        self.describe_btn_label = Label(image=self.describe_btn)
-
-        self.describe = Button(self.master, image= self.describe_btn, borderwidth=3)
-        self.describe["text"] = "Describe"
-        self.describe["command"] =  self.describeSession
-        self.describe.grid(row=2, column=3, padx=2, pady=2)
-        self.describe["state"] = "disabled"
         
         # Create a label to display the movie
         self.label = Label(self.master, height=18, bg="black")
-        self.label.grid(row=0, column=0, columnspan=4, sticky=W+E+N+S, padx=5, pady=5) 
+        self.label.grid(row=0, column=0, columnspan=3, sticky=W+E+N+S, padx=5, pady=5) 
 
         # Create a label to display the time
         self.timeBox = Label(self.master, width=12, text="00:00")
-        self.timeBox.grid(row=1, column=1, columnspan=2, sticky=W+E+N+S, padx=5, pady=5)
+        self.timeBox.grid(row=1, column=1, columnspan=1, sticky=W+E+N+S, padx=5, pady=5)
     
     def setupMovie(self):
         """Setup button handler."""
@@ -130,10 +118,6 @@ class Client:
             self.playEvent = threading.Event()
             self.playEvent.clear()
             self.sendRtspRequest(self.PLAY)
-    
-    def describeSession(self):
-        """Describe button handler."""
-        self.sendRtspRequest(self.DESCRIBE)
     
     def listenRtp(self):        
         """Listen for RTP packets."""
@@ -257,19 +241,6 @@ class Client:
             # Keep track of the sent request.
             self.requestSent = self.TEARDOWN
 
-        # Describe request
-        elif requestCode == self.DESCRIBE and not self.state == self.INIT:
-            # Update RTSP sequence number.
-            self.rtspSeq += 1
-            
-            # Write the RTSP request to be sent.
-            request = "DESCRIBE " + str(self.fileName) + " RTSP/1.0\n"
-            request += "CSeq: " + str(self.rtspSeq) + "\n"
-            request += "Session: " + str(self.sessionId)
-            
-            # Keep track of the sent request.
-            self.requestSent = self.DESCRIBE
-
         else:
             return
         
@@ -329,7 +300,6 @@ class Client:
                         self.start["state"] = "disabled"
                         self.pause["state"] = "normal"
                         self.stop["state"] = "normal"
-                        # self.describe["state"] = "normal"
 
                     elif self.requestSent == self.PAUSE:
                         # Update RTSP state.
@@ -353,13 +323,6 @@ class Client:
                         
                         # Flag the teardownAcked to close the socket.
                         self.teardownAcked = 1 
-
-                    elif self.requestSent == self.DESCRIBE:
-                        # Write RTSP payload to session file
-                        f = open(SESSION_FILE, "w")
-                        for i in range(4, len(lines)):
-                            f.write(lines[i] + '\n')
-                        f.close()
     
     def openRtpPort(self):
         """Open RTP socket binded to a specified port."""
