@@ -120,10 +120,6 @@ class Client:
             self.playEvent = threading.Event()
             self.playEvent.clear()
             self.sendRtspRequest(self.PLAY)
-
-    def describeSession(self):
-        """Describe button handler."""
-        self.sendRtspRequest(self.DESCRIBE)
     
     def listenRtp(self):        
         """Listen for RTP packets."""
